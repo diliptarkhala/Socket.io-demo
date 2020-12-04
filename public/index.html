@@ -51,7 +51,7 @@
       </div>
       <hr />
       <div class="redme">
-        <h5>There are three options to send message</h5>
+        <h4>There are three options to send message</h4>
         <ol>
           <li>Send message to only one user.</li>
           <li>Send message to multiple users.</li>
@@ -68,14 +68,16 @@
         <div id="socket-conatiner" class="hide">
           <h2 id="connectedusername">Username</h2>
           <hr />
-          <ul id="messagelist"></ul>
+          <ul id="messagelist">
+            <li>There is no messages</li>
+          </ul>
           <input type="text" id="msg-input" placeholder="enter your message" />
           <button id="send-to-all" onclick="sendToAll()">Send To All</button>
           <button onclick="sendToSelectedUsers()" id="send-to-selected">Send To Selected Users</button>
           <div class="userlist-section">
             <h3>Online users</h3>
             <ul id="userlist">
-              <li>Seems like no one is online at the moment</li>
+              <li>Seems like no one is online at the moment, try and connect to socket from another tab or browser using new uniqe name</li>
             </ul>
           </div>
         </div>
@@ -110,9 +112,9 @@
           document.getElementById("conectionform").className = "";
           userListNode.innerHTML = `<li>Seems like no one is online at the moment</li>`;
           document.getElementById("messagelist").innerHTML = ``;
-          socket.emit("disconnect");
         }
-        if (onlineusers && Array.isArray(onlineusers) && onlineusers.length) {
+        if (onlineusers && Array.isArray(onlineusers) && onlineusers.filter((username) => connectedUser.username !== username).length) {
+          alert("yes");
           var userListItems = onlineusers
             .filter((username) => connectedUser.username !== username)
             .map(
@@ -125,10 +127,9 @@
             .join("");
           userListNode.innerHTML = userListItems;
         } else {
-          userListNode.innerHTML = `<li>Seems like no one is online at the moment</li>`;
+          userListNode.innerHTML = `<li>Seems like no one is online at the moment, try and connect to socket from another tab or browser</li>`;
         }
       });
-
       socket.on("new_message", (data) => {
         list = document.getElementById("messagelist");
         let listItem = document.createElement("li");
@@ -168,7 +169,7 @@
             message: message,
           });
         } else {
-          alert("You can send empty message");
+          alert("You can't send empty message");
         }
       };
       var onSelectedUsersChange = (user, e) => {

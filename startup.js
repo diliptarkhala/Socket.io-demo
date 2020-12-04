@@ -18,5 +18,5 @@ const server = http.createServer(app);
 require("./socket")(server);
 
 server.listen(port, () => {
-  console.log("Server is running on port " + port);
+  console.log("Server is running on port http://localhost:" + port);
 });

@@ -60,10 +60,5 @@ module.exports = (server) => {
     var onlineUsersChanged = () => {
       io.of("/chat").emit("online_users_changed", Object.keys(onlineUsers));
     };
-    /**
-     * Send message to selected users
-     * @param {Array} users list of users you want to send message
-     * @param {Array} message message data
-     */
   });
 };
